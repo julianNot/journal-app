@@ -21,7 +21,7 @@
         <textarea placeholder="Notas del dia ..."></textarea>
     </div>
 
-    <Fab />
+    <Fab icon="fa-save"/>
     <img src="https://caracoltv.brightspotcdn.com/dims4/default/ade1783/2147483647/strip/true/crop/923x515+0+0/resize/1200x669!/quality/90/?url=http%3A%2F%2Fcaracol-brightspot.s3.amazonaws.com%2F31%2Fac%2Fe9579c3d4b2ba642a8d7959cf2ec%2Fmuross.png" 
     alt="berlin"
     class="img-thumbnail">
