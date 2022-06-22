@@ -21,7 +21,10 @@
         <div class="d-flex flex-column px-3 h-75">
             <textarea v-model="entry.text" placeholder="Notas del dia ..."></textarea>
         </div>
-        <Fab icon="fa-save"/>
+        <Fab 
+            icon="fa-save"
+            @on:click="saveEntry"
+        />
         <img src="https://caracoltv.brightspotcdn.com/dims4/default/ade1783/2147483647/strip/true/crop/923x515+0+0/resize/1200x669!/quality/90/?url=http%3A%2F%2Fcaracol-brightspot.s3.amazonaws.com%2F31%2Fac%2Fe9579c3d4b2ba642a8d7959cf2ec%2Fmuross.png"
         alt="berlin"
         class="img-thumbnail">
@@ -30,7 +33,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import getDayMonthYear from '../helpers/getDayMonthYear.js'
 
@@ -66,11 +69,31 @@ export default {
         
     },
     methods : {
+        ...mapActions('journal', ['updateEntry']),
+
         loadEntry(){
-            const entry = this.getEntryById(this.id)
-            if ( !entry ) return this.$router.push({name : 'no-entry'})
+            let entry;
+
+            if(this.id == 'new'){
+                entry = {
+                    text : '',
+                    date : new Date().getTime()
+                }
+            } else {
+                entry = this.getEntryById(this.id)
+                if ( !entry ) return this.$router.push({name : 'no-entry'})
+            }
 
             this.entry = entry
+        },
+        async saveEntry(){
+            if( this.entry.id ){
+                //actualizar
+                await this.updateEntry( this.entry )
+            } else {
+                // nuevo
+                console.log('Post de una nueva entrada')
+            }
         }
     },
     created(){
